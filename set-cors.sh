@@ -1,0 +1,1 @@
+gcloud storage buckets update gs://printqueue --cors-file cors-config.json

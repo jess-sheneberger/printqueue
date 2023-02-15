@@ -1,0 +1,39 @@
+{
+  "name": "printqueue",
+  "version": "0.1.67",
+  "devDependencies": {
+    "@react-css/grid": "^2.1.0",
+    "bootstrap": "^5.2.3",
+    "luxon": "^3.2.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.1",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.8",
+    "react-refresh": "0.10.0",
+    "react-scripts": "^5.0.1",
+    "typescript": "latest",
+    "web-vitals": "^3.0.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "scripts": {
+    "build": "react-scripts build"
+  },
+  "dependencies": {}
+}

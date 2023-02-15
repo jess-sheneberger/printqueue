@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["http://localhost:8080", "https://pq.nerd.cash"],
+      "method": ["*"],
+      "responseHeader": ["Accept","Content-Type","Content-Length","Accept-Encoding","X-CSRF-Token","Authorization","X-Goog-Content-Length-Range"],
+      "maxAgeSeconds": 3600
+    }
+]

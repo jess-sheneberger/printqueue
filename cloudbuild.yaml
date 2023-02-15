@@ -1,0 +1,21 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/gjmakerspace-org/images/printqueue', '.' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/gjmakerspace-org/images/printqueue']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: 
+  - run
+  - deploy
+  - printqueue
+  - --image
+  - us-central1-docker.pkg.dev/gjmakerspace-org/images/printqueue
+  - --region
+  - us-central1
+  - --service-account
+  - printqueueup@gjmakerspace-org.iam.gserviceaccount.com
+  - --update-secrets=DOWNTOKEN=printqueuedowntoken:1,UPTOKEN=printqueueuptoken:2
+
+images:
+- 'us-central1-docker.pkg.dev/gjmakerspace-org/images/printqueue'
