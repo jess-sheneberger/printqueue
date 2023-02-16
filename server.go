@@ -74,7 +74,7 @@ func NewServer() *Server {
 	r.HandleFunc("/", s.Static).Methods("GET", "OPTIONS")
 	// the lab download page UI
 	r.HandleFunc("/lab", s.Static).Methods("GET", "OPTIONS")
-	r.HandleFunc("/api/uptoken", s.CheckUptoken).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/me", s.CheckToken).Methods("GET", "OPTIONS")
 	r.HandleFunc("/api/upload", s.GetSignedUploadURL).Methods("POST", "OPTIONS")
 	r.HandleFunc("/api/finish", s.FinishUpload).Methods("POST", "OPTIONS")
 	r.HandleFunc("/api/files", s.ListFiles).Methods("GET", "OPTIONS")
@@ -117,14 +117,24 @@ func (h *Headers) Array() []string {
 	return result
 }
 
-func (s *Server) CheckUptoken(w http.ResponseWriter, r *http.Request) {
+type CheckTokenResponse struct {
+	Type string `json:"type"`
+}
+
+func (s *Server) CheckToken(w http.ResponseWriter, r *http.Request) {
 	err := upPermissionCheck(r)
 	if err != nil {
-		writeError(w, err, http.StatusUnauthorized)
+		err = downPermissionCheck(r)
+		if err != nil {
+			writeError(w, err, http.StatusUnauthorized)
+			return
+		}
+
+		writeSuccess(w, CheckTokenResponse{Type: "down"})
 		return
 	}
-	writeSuccess(w, struct{}{})
 
+	writeSuccess(w, CheckTokenResponse{Type: "up"})
 }
 
 func (s *Server) GetSignedUploadURL(w http.ResponseWriter, r *http.Request) {

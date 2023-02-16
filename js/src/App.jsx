@@ -13,13 +13,15 @@ import FileList from "./FileList";
 import LoginModal from "./LoginModal";
 
 async function verifyAccessToken(token) {
-  let result = await get(`/api/uptoken?access_token=${token}`);
+  let result = await get(`/api/me?access_token=${token}`);
 
   if (!result.ok) {
     throw new Error(`Could not verify access token: ${result.statusText}`, { cause: { status: result.status, statusText: result.statusText } });
   }
 
-  return;
+  let verifyResult = await result.json();
+
+  return verifyResult.type;
 }
 
 class App extends React.Component {
@@ -49,11 +51,19 @@ class App extends React.Component {
 
     this.setState(state);
 
-    verifyAccessToken(token).then(() => {
+    verifyAccessToken(token).then((type) => {
       if (window.location.pathname === "/lab") {
-        state.route = "lab";
+        if (type === "down") {
+          state.route = "lab";
+        } else {
+          state.route = "unauthorized";
+        }
       } else {
-        state.route = "upload";
+        if (type === "up") {
+          state.route = "upload";
+        } else {
+          state.route = "unauthorized";
+        }
       }
       if (!state.token) {
         state.route = "unauthorized";
